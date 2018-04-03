@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Los mejores Jeans del mundo</h2>
+
+@section scripts
+{
+    <script>
+
+        $(document).ready(function () {
+            cargarJeans();
+
+        });
+
+        //Load Data function
+        function cargarJeans() {
+            $.ajax({
+                url: "http://localhost:54089/api/Jeans",
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    var html = '';
+                    $.each(result, function (key, item) {
+                        html += '<tr>';
+                        html += '<td>' + item.IdJeans + '</td>';
+                        html += '<td>' + item.Marca + '</td>';
+                        html += '<td>' + item.Modelo + '</td>';
+                        html += '<td><img src="' + item.Imagen + '" style="height:100px;width:150px"/></td>';
+                        html += '</tr>';
+                    });
+                    $('#tabla tbody').html(html);
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        };
+    </script>
+}
+
+<table id="tabla" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Foto</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
